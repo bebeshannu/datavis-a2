@@ -1,27 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>DataVis - Assignment 2</title>
-    
-    Instead of this blank page, your beautiful visualizations should appear here :)
-    
-    <!-- Loading d3js version 5-->
-    <script src="d3.v5.min.js"></script>
-  
-    
-    <!-- Loading style.css; use if needed -->
-    <link rel="stylesheet" href="style.css">
-
+  <meta charset="utf-8" />
+  <title>DataVis Assignment 2 — Scatterplot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
+  <header>
+    <h1>Cars Scatterplot — Assignment 2</h1>
+    <p class="subtitle">x: Retail Price  |  y: Horsepower  |  color: City MPG  |  size: Engine Size</p>
+  </header>
 
-<!-- YOUR SOLUTION GOES HERE-->
+  <main>
+    <section id="viz-area">
+      <div id="scatterplot"></div>
+      <!-- legend and controls -->
+      <div id="controls">
+        <div id="legend-color" class="legend-block"></div>
+        <div id="legend-size" class="legend-block"></div>
+      </div>
+    </section>
 
+    <aside id="details">
+      <h2>Selected Car</h2>
+      <div id="info">
+        <p class="hint">Click any dot in the plot to see details here.</p>
+      </div>
+    </aside>
+  </main>
 
-<!-- loading the main javascript file; implement logic there -->
-<script src="main.js"></script>
+  <footer>
+    <small>Built with D3 (v5). Dataset: <code>cars.csv</code></small>
+  </footer>
 
+  <!-- D3 v5 (already present in your repo) -->
+  <script src="d3.v5.min.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
