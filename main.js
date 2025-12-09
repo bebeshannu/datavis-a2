@@ -50,7 +50,8 @@ svg.append("text")
 // LOAD CSV
 // =============================
 d3.csv("cars.csv").then(raw => {
-
+    
+    console.log("HEADERS:", Object.keys(raw[0]));
     const cleanedData = raw.map(r => {
         const cleaned = {};
         Object.keys(r).forEach(k => cleaned[normalizeKey(k)] = r[k]);
