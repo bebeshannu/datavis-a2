@@ -1,14 +1,17 @@
-// Stronger normalization function
+// =============================
+// NORMALIZE COLUMN HEADERS
+// =============================
 function normalizeKey(k) {
-    return k.toLowerCase()
-        .replace(/\uFEFF/g, "")     // remove BOM
-        .replace(/\s+/g, "")        // remove whitespace
+    return k.trim()                      // FIX: remove trailing spaces
+        .toLowerCase()
+        .replace(/\uFEFF/g, "")
+        .replace(/\s+/g, "")
         .replace(/\(/g, "")
         .replace(/\)/g, "")
         .replace(/\./g, "")
         .replace(/-/g, "")
-        .replace(/\r/g, "")         // remove Windows CR
-        .replace(/\t/g, "");        // remove tabs
+        .replace(/\r/g, "")
+        .replace(/\t/g, "");
 }
 
 const formatComma = d3.format(",.0f");
@@ -50,8 +53,7 @@ svg.append("text")
 // LOAD CSV
 // =============================
 d3.csv("cars.csv").then(raw => {
-    
-    console.log("HEADERS:", Object.keys(raw[0]));
+
     const cleanedData = raw.map(r => {
         const cleaned = {};
         Object.keys(r).forEach(k => cleaned[normalizeKey(k)] = r[k]);
@@ -67,10 +69,8 @@ d3.csv("cars.csv").then(raw => {
         };
     });
 
-    // DEBUG: print first cleaned row
     console.log("CLEANED FIRST ROW:", cleanedData[0]);
 
-    // Remove impossible or invalid rows
     const data = cleanedData.filter(d =>
         isFinite(d.RetailPrice) &&
         isFinite(d.Horsepower) &&
@@ -97,7 +97,9 @@ d3.csv("cars.csv").then(raw => {
     gx.call(d3.axisBottom(x).ticks(8).tickFormat(d => "$" + formatComma(d)));
     gy.call(d3.axisLeft(y).ticks(8));
 
-    // Draw dots
+    // =============================
+    // DRAW DOTS (CLEAN DATA!)
+    // =============================
     g.selectAll("circle")
         .data(data)
         .enter()
@@ -113,18 +115,20 @@ d3.csv("cars.csv").then(raw => {
             showDetails(d);
         });
 
+    // =============================
+    // DETAILS PANEL
+    // =============================
     function showDetails(d) {
         details.html("");
-    details.append("h3").text(d.Name);
+        details.append("h3").text(d.Name);
 
-    details.append("p").html(`<strong>Type:</strong> ${d.Type}`);
-    details.append("p").html(`<strong>Retail Price:</strong> $${formatComma(d.RetailPrice)}`);
-    details.append("p").html(`<strong>Dealer Cost:</strong> $${formatComma(d.DealerCost)}`);
-    details.append("p").html(`<strong>Engine Size:</strong> ${formatOne(d.EngineSize)} L`);
-    details.append("p").html(`<strong>City MPG:</strong> ${d.CityMPG}`);
-    details.append("p").html(`<strong>Horsepower:</strong> ${d.Horsepower}`);
+        details.append("p").html(`<strong>Type:</strong> ${d.Type}`);
+        details.append("p").html(`<strong>Retail Price:</strong> $${formatComma(d.RetailPrice)}`);
+        details.append("p").html(`<strong>Dealer Cost:</strong> $${formatComma(d.DealerCost)}`);
+        details.append("p").html(`<strong>Engine Size:</strong> ${formatOne(d.EngineSize)} L`);
+        details.append("p").html(`<strong>City MPG:</strong> ${d.CityMPG}`);
+        details.append("p").html(`<strong>Horsepower:</strong> ${d.Horsepower}`);
     }
 
     if (data.length) showDetails(data[0]);
-
 });
