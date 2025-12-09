@@ -1,15 +1,14 @@
-// =============================
-// main.js — FINAL VERSION FOR YOUR CSV
-// =============================
-
-// Normalize CSV keys so column names always match
+// Stronger normalization function
 function normalizeKey(k) {
     return k.toLowerCase()
-        .replace(/\s+/g, "")
+        .replace(/\uFEFF/g, "")     // remove BOM
+        .replace(/\s+/g, "")        // remove whitespace
         .replace(/\(/g, "")
         .replace(/\)/g, "")
         .replace(/\./g, "")
-        .replace(/-/g, "");
+        .replace(/-/g, "")
+        .replace(/\r/g, "")         // remove Windows CR
+        .replace(/\t/g, "");        // remove tabs
 }
 
 const formatComma = d3.format(",.0f");
@@ -18,7 +17,6 @@ const formatOne   = d3.format(".1f");
 const container = d3.select("#scatterplot");
 const details   = d3.select("#info");
 
-// SVG setup
 const WIDTH = 900, HEIGHT = 520;
 const margin = { top: 30, right: 20, bottom: 60, left: 80 };
 const innerW = WIDTH - margin.left - margin.right;
@@ -34,7 +32,6 @@ const g = svg.append("g")
 const gx = g.append("g").attr("transform", `translate(0,${innerH})`);
 const gy = g.append("g");
 
-// Axis labels
 svg.append("text")
     .attr("text-anchor", "middle")
     .attr("x", margin.left + innerW / 2)
@@ -50,7 +47,7 @@ svg.append("text")
 
 
 // =============================
-// LOAD CSV + PARSE CLEANLY
+// LOAD CSV
 // =============================
 d3.csv("cars.csv").then(raw => {
 
@@ -65,15 +62,19 @@ d3.csv("cars.csv").then(raw => {
             DealerCost: +cleaned.dealercost,
             EngineSize: +cleaned.enginesizel,
             Horsepower: +cleaned.horsepowerhp,
-            CityMPG: +cleaned.citymilespergallon,
-            AWD: cleaned.awd,
-            RWD: cleaned.rwd
+            CityMPG: +cleaned.citymilespergallon
         };
     });
 
-    // Filter valid numeric rows
+    // DEBUG: print first cleaned row
+    console.log("CLEANED FIRST ROW:", cleanedData[0]);
+
+    // Remove impossible or invalid rows
     const data = cleanedData.filter(d =>
-        isFinite(d.RetailPrice) && isFinite(d.Horsepower)
+        isFinite(d.RetailPrice) &&
+        isFinite(d.Horsepower) &&
+        isFinite(d.EngineSize) &&
+        isFinite(d.CityMPG)
     );
 
     // Scales
@@ -111,7 +112,6 @@ d3.csv("cars.csv").then(raw => {
             showDetails(d);
         });
 
-    // Show details panel
     function showDetails(d) {
         details.html("");
         details.append("h3").text(d.Name);
@@ -123,10 +123,6 @@ d3.csv("cars.csv").then(raw => {
         details.append("p").html(`<strong>Horsepower:</strong> ${d.Horsepower}`);
     }
 
-    // Show first car automatically
-    if (data.length > 0) showDetails(data[0]);
+    if (data.length) showDetails(data[0]);
 
-}).catch(err => {
-    console.error("CSV Load Error:", err);
-    details.html(`<p style="color:red">Error loading CSV: ${err}</p>`);
 });
