@@ -1,46 +1,44 @@
-// =============================
-// NORMALIZE COLUMN HEADERS
-// =============================
-function normalizeKey(k) {
-    return k.trim()                      // remove trailing spaces
-        .toLowerCase()
-        .replace(/\uFEFF/g, "")
-        .replace(/\s+/g, "")
-        .replace(/\(/g, "")
-        .replace(/\)/g, "")
-        .replace(/\./g, "")
-        .replace(/-/g, "")
-        .replace(/\r/g, "")
-        .replace(/\t/g, "");
-}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>DataVis Assignment 2 — Scatterplot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-const formatComma = d3.format(",.0f");
-const formatOne   = d3.format(".1f");
+<body>
+  <header>
+    <h1>Cars Scatterplot — Assignment 2</h1>
+    <p class="subtitle">
+      x: Retail Price | y: Horsepower | color: City MPG | size: Engine Size
+    </p>
+  </header>
 
-const container = d3.select("#scatterplot");
-const details   = d3.select("#info");
+  <main>
+    <section id="viz-area">
+      <div id="scatterplot"></div>
 
-const WIDTH = 900, HEIGHT = 520;
-const margin = { top: 30, right: 20, bottom: 60, left: 80 };
-const innerW = WIDTH - margin.left - margin.right;
-const innerH = HEIGHT - margin.top - margin.bottom;
+      <div id="controls">
+        <div id="legend-color" class="legend-block"></div>
+        <div id="legend-size" class="legend-block"></div>
+      </div>
+    </section>
 
-const svg = container.append("svg")
-    .attr("viewBox", `0 0 ${WIDTH} ${HEIGHT}`)
-    .attr("preserveAspectRatio", "xMidYMid meet");
+    <aside id="details">
+      <h2>Selected Car</h2>
+      <div id="info">
+        <p class="hint">Click any dot in the plot to see details here.</p>
+      </div>
+    </aside>
+  </main>
 
-const g = svg.append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
+  <footer>
+    <small>Built with D3 (v5). Dataset: <code>cars.csv</code></small>
+  </footer>
 
-const gx = g.append("g").attr("transform", `translate(0,${innerH})`);
-const gy = g.append("g");
-
-svg.append("text")
-    .attr("text-anchor", "middle")
-    .attr("x", margin.left + innerW / 2)
-    .attr("y", HEIGHT - 12)
-    .text("Retail Price (USD)");
-
-svg.append("text")
-    .attr("text-anchor", "middle")
-    .attr("t
+  <!-- Load JS libraries -->
+  <script src="d3.v5.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
