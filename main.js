@@ -115,13 +115,14 @@ d3.csv("cars.csv").then(raw => {
 
     function showDetails(d) {
         details.html("");
-        details.append("h3").text(d.Name);
-        details.append("p").html(`<strong>Type:</strong> ${d.Type}`);
-        details.append("p").html(`<strong>Retail Price:</strong> $${formatComma(d.RetailPrice)}`);
-        details.append("p").html(`<strong>Dealer Cost:</strong> $${formatComma(d.DealerCost)}`);
-        details.append("p").html(`<strong>Engine Size:</strong> ${formatOne(d.EngineSize)} L`);
-        details.append("p").html(`<strong>City MPG:</strong> ${d.CityMPG}`);
-        details.append("p").html(`<strong>Horsepower:</strong> ${d.Horsepower}`);
+    details.append("h3").text(d.Name);
+
+    details.append("p").html(`<strong>Type:</strong> ${d.Type}`);
+    details.append("p").html(`<strong>Retail Price:</strong> $${formatComma(d.RetailPrice)}`);
+    details.append("p").html(`<strong>Dealer Cost:</strong> $${formatComma(d.DealerCost)}`);
+    details.append("p").html(`<strong>Engine Size:</strong> ${formatOne(d.EngineSize)} L`);
+    details.append("p").html(`<strong>City MPG:</strong> ${d.CityMPG}`);
+    details.append("p").html(`<strong>Horsepower:</strong> ${d.Horsepower}`);
     }
 
     if (data.length) showDetails(data[0]);
