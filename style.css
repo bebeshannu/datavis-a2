@@ -1,5 +1,64 @@
+/* basic layout */
 body {
-    height: 100%;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  margin: 0;
+  color: #111;
+  background: #f7f7fb;
 }
 
-/* YOUR CSS CODE GOES HERE */
+header {
+  padding: 18px 28px;
+  background: #ffffff;
+  border-bottom: 1px solid #e3e6ea;
+}
+
+header h1 { margin: 0; font-size: 20px; }
+.subtitle { margin: 6px 0 0 0; color: #666; font-size: 13px; }
+
+main {
+  display: flex;
+  gap: 16px;
+  padding: 18px;
+  align-items: flex-start;
+}
+
+/* visualization area */
+#viz-area {
+  flex: 1 1 700px;
+  background: #fff;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(20,20,40,0.05);
+}
+
+/* place for SVG */
+#scatterplot svg {
+  width: 100%;
+  height: 520px;
+  display: block;
+}
+
+/* details panel */
+#details {
+  width: 320px;
+  background: #fff;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(20,20,40,0.05);
+}
+
+#details h2 { margin-top: 0; font-size: 16px; }
+#details p { margin: 6px 0; }
+.hint { color: #666; font-size: 13px; }
+
+/* legend blocks */
+#controls { margin-top: 8px; display:flex; gap:12px; }
+.legend-block { padding: 8px; border-radius:6px; background:#fafafa; box-shadow:inset 0 0 0 1px rgba(0,0,0,0.03); font-size:12px; }
+
+/* dot hover/selected effects (class toggles by JS) */
+.dot { stroke: #222; stroke-width: 0.5; cursor: pointer; opacity: 0.85; }
+.dot:hover { stroke-width: 1.5; opacity: 1; }
+.selected { stroke: #ff6b6b; stroke-width: 2.5; opacity: 1 !important; }
+
+/* footer */
+footer { padding: 10px 18px; font-size: 12px; color: #666; }
